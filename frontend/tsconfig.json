@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "ESNext",
+
+    /* ESSENCIAL PARA RESOLVER O ERRO DO undici-types */
+    "moduleResolution": "node",
+
+    /* Ignora erros de tipos dentro de node_modules (incluindo @types/node) */
+    "skipLibCheck": true,
+
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
+
+    /* Como é projeto de browser, garantimos DOM + ES2020 */
+    "lib": ["DOM", "ES2020"]
+  },
+  "include": ["src/**/*"]
+}

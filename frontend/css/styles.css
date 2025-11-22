@@ -1,0 +1,7 @@
+body {
+  padding-bottom: 40px;
+}
+
+#tweets-container .list-group-item {
+  margin-bottom: 0.5rem;
+}

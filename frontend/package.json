@@ -1,0 +1,15 @@
+{
+  "name": "mini-twitter-frontend",
+  "version": "1.0.0",
+  "main": "dist/main.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && lite-server"
+  },
+  "devDependencies": {
+    "lite-server": "^2.6.1",
+    "typescript": "^5.0.0",
+    "undici-types": "^7.16.0"
+  }
+}
