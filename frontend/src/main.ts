@@ -36,12 +36,14 @@ function setAuth(token: string | null, username: string | null) {
     localStorage.setItem("username", username || "");
 
     tweetFormRow.classList.remove("d-none");
+    document.getElementById("change-password-btn")!.classList.remove("d-none");
     currentUserSpan.textContent = `Logado como: ${username}`;
   } else {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
 
     tweetFormRow.classList.add("d-none");
+    document.getElementById("change-password-btn")!.classList.add("d-none");
     currentUserSpan.textContent = "";
   }
 }
@@ -281,3 +283,35 @@ async function deleteTweet(id: number) {
     alert("Erro de conexão ao excluir tweet.");
   }
 }
+
+// ==================== Trocar senha ====================
+document.getElementById("change-password-btn")!.addEventListener("click", async () => {
+  const oldPassword = prompt("Digite sua senha atual:");
+  if (!oldPassword) return;
+
+  const newPassword = prompt("Digite sua nova senha:");
+  if (!newPassword) return;
+
+  try {
+    const res = await apiFetch("/api/auth/change-password/", {
+      method: "POST",
+      body: JSON.stringify({
+        old_password: oldPassword,
+        new_password: newPassword
+      }),
+    });
+
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      alert("Erro ao trocar senha: " + JSON.stringify(data));
+      return;
+    }
+
+    alert("Senha alterada com sucesso!");
+
+  } catch (err) {
+    alert("Erro de conexão ao trocar senha.");
+  }
+});
+
