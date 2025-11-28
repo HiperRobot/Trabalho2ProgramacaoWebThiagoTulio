@@ -25,6 +25,7 @@ const currentUserSpan = document.getElementById("current-user") as HTMLSpanEleme
 
 const registerMsg = document.getElementById("register-message") as HTMLDivElement;
 const loginMsg = document.getElementById("login-message") as HTMLDivElement;
+const similarSection = document.getElementById("similar-tweets-section") as HTMLDivElement;
 
 // Função para salvar/aplicar token e usuário atual
 function setAuth(token: string | null, username: string | null) {
@@ -153,6 +154,7 @@ loginForm.addEventListener("submit", async (e) => {
 logoutBtn.addEventListener("click", () => {
   setAuth(null, null);
   tweetsContainer.innerHTML = "";
+  similarSection.innerHTML = "";
 });
 
 // ==================== Criar tweet ====================
@@ -173,6 +175,14 @@ tweetForm.addEventListener("submit", async (e) => {
       alert("Erro ao postar tweet.");
       return;
     }
+
+    const data = await res.json();
+
+    // Buscar e mostrar tweets similares
+    const newTweet = data.tweet;
+    const similares = data.similar_tweets || [];
+
+showSimilarTweets(similares);
 
     textarea.value = "";
     fetchTweets();
@@ -322,3 +332,30 @@ document.getElementById("change-password-btn")!.addEventListener("click", async 
   }
 });
 
+// ==================== Exibir tweets similares ====================
+
+function showSimilarTweets(similarTweets: Tweet[]) {
+  const similarSection = document.getElementById("similar-tweets-section") as HTMLDivElement;
+  similarSection.innerHTML = "Tweets semelhantes ao último postado:";
+
+  if (similarTweets.length === 0) {
+    similarSection.innerHTML = "<div class='text-muted'>Nenhum tweet similar encontrado.</div>";
+    return;
+  }
+
+  similarTweets.forEach((tweet) => {
+    const div = document.createElement("div");
+    div.className = "list-group-item d-flex justify-content-between align-items-start";
+
+    const contentDiv = document.createElement("div");
+    contentDiv.className = "ms-2 me-auto";
+    contentDiv.innerHTML = `
+      <div class="fw-bold">@${tweet.owner_username}</div>
+      <div>${tweet.content}</div>
+      <small class="text-muted">${new Date(tweet.created_at).toLocaleString()}</small>
+    `;
+
+    div.appendChild(contentDiv);
+    similarSection.appendChild(div);
+  });
+}
