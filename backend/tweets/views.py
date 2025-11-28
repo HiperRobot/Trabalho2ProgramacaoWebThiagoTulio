@@ -9,11 +9,8 @@ class TweetViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated, IsOwnerOrAdminDeleteOnly]
 
     def get_queryset(self):
-        user = self.request.user
-        # admin vê todos; usuário comum só vê os próprios
-        if user.is_staff:
-            return Tweet.objects.all().order_by('-created_at')
-        return Tweet.objects.filter(owner=user).order_by('-created_at')
+        # Todos os usuários autenticados podem ver TODOS os tweets
+        return Tweet.objects.all().order_by('-created_at')
 
     def perform_create(self, serializer):
         # owner sempre é o usuário logado

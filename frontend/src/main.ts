@@ -1,6 +1,6 @@
 // Ajuste essa constante para a URL real do seu backend.
 // Em Codespaces, use o endereço público que aparece para a porta 8000.
-const API_BASE_URL = "https://special-space-umbrella-6rj5j694qxr24vjr-8000.app.github.dev";
+const API_BASE_URL = "https://laughing-palm-tree-66pw9jpqjc56gx-8000.app.github.dev";
 
 let authToken: string | null = null;
 let currentUsername: string | null = null;
