@@ -58,6 +58,13 @@ function setAuth(token: string | null, username: string | null) {
   }
 })();
 
+// Auto-refresh dos tweets a cada 5s
+setInterval(() => {
+  if (authToken) {
+    fetchTweets();
+  }
+}, 5000);
+
 async function apiFetch(endpoint: string, options: RequestInit = {}): Promise<Response> {
   // Forçamos o tipo para um objeto simples de strings
   const baseHeaders = options.headers as Record<string, string> | undefined;
